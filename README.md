@@ -19,3 +19,18 @@ Este projeto demonstra uma Prova de Conceito (POC) de como integrar fluxos de au
 
 *   **`ProductScreen`:** Exibe o status atual de autenticação (Autenticado/Não Autenticado) e oferece um botão de "Logout" que remove o token do `expo-secure-store`, resetando o status.
 *   **`AddProductScreen`:** Atua como um gatekeeper, garantindo que apenas usuários autenticados possam prosseguir para a funcionalidade de adicionar produtos e, consequentemente, para o checkout.
+
+### 4. Considerações de Segurança: Content Security Policy (CSP)
+
+Para aumentar a segurança das páginas carregadas nas WebViews, foi implementada uma Content Security Policy (CSP) nos arquivos HTML mock (`auth-mock.html` e `checkout-mock.html`). A CSP ajuda a mitigar ataques como Cross-Site Scripting (XSS), controlando os recursos que a WebView tem permissão para carregar.
+
+*   **Implementação na POC:** Nos arquivos HTML mock, a CSP é definida através de uma meta tag:
+    ```html
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
+    ```
+*   **Significado:**
+    *   `default-src 'self'`: Permite que recursos (imagens, fontes, etc.) sejam carregados apenas da mesma origem do documento HTML.
+    *   `script-src 'self' 'unsafe-inline'`: Permite scripts da mesma origem e scripts inline (necessário para o funcionamento dos mocks). **Em produção, 'unsafe-inline' deve ser evitado.**
+    *   `style-src 'self' 'unsafe-inline'`: Permite estilos da mesma origem e estilos inline (necessário para o funcionamento dos mocks). **Em produção, 'unsafe-inline' deve ser evitado.**
+
+*   **Importância em Produção:** Em um ambiente real, a CSP deve ser configurada de forma mais restritiva, evitando `'unsafe-inline'` e utilizando hashes ou nonces para scripts e estilos inline, ou carregando-os de arquivos externos, para maximizar a proteção contra XSS.
