@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Mock</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background-color: #f0f0f0; }
+        .container { background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center; }
+        h1 { color: #333; margin-bottom: 20px; }
+        p { color: #666; font-size: 18px; }
+        .status { margin-top: 20px; font-weight: bold; }
+        .authenticated { color: green; }
+        .unauthenticated { color: red; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Simulação de Checkout</h1>
+        <p>Verificando status de autenticação...</p>
+        <div id="authStatus" class="status"></div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const token = localStorage.getItem('user_token');
+            const authStatusDiv = document.getElementById('authStatus');
+
+            if (token) {
+                authStatusDiv.className = 'status authenticated';
+                authStatusDiv.innerText = `Autenticado! Token: ${token.substring(0, 20)}...`;
+            } else {
+                authStatusDiv.className = 'status unauthenticated';
+                authStatusDiv.innerText = 'Não autenticado.';
+            }
+        };
+    </script>
+</body>
+</html>

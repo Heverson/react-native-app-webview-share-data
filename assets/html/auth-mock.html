@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Mock</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background-color: #f0f0f0; }
+        .container { background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center; }
+        h1 { color: #333; margin-bottom: 20px; }
+        input[type="text"], input[type="password"] { width: calc(100% - 20px); padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px; }
+        button { background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        button:hover { background-color: #0056b3; }
+        .message { margin-top: 20px; color: green; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Simulação de Autenticação (PHP Backend)</h1>
+        <form id="authForm">
+            <input type="text" id="username" placeholder="Usuário" value="user@example.com" required><br>
+            <input type="password" id="password" placeholder="Senha" value="password123" required><br>
+            <button type="submit">Entrar</button>
+        </form>
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        document.getElementById('authForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Simula uma chamada de API para o backend PHP
+            setTimeout(() => {
+                const token = `mock-auth-token-${username}-${Date.now()}`;
+                document.getElementById('message').innerText = 'Autenticação bem-sucedida! Redirecionando...';
+
+                // Envia o token para o aplicativo React Native
+                if (window.ReactNativeWebView) {
+                    window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'AUTH_SUCCESS', token: token }));
+                } else {
+                    console.warn('ReactNativeWebView not found. Running in browser?');
+                }
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
